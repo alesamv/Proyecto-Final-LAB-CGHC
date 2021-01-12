@@ -1,0 +1,13 @@
+# Blender MTL File: 'Muros.blend'
+# Material Count: 1
+
+newmtl Material
+Ns 743.801648
+Ka 0.309091 0.309091 0.309091
+Kd 0.084482 0.338187 0.800000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 0.009091
+illum 6
+map_Kd agua.png
