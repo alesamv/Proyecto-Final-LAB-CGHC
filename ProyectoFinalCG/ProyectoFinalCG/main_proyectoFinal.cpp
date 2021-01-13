@@ -63,14 +63,19 @@ glm::vec3 lightDirection(0.0f, -1.0f, -1.0f);
 // posiciones
 //float x = 0.0f;
 //float y = 0.0f;
-float	movAuto_x = 0.0f,
-		movAuto_z = 0.0f,
-		orienta = 0.0f;
-bool	animacion = false,
-		recorrido1 = true,
-		recorrido2 = false,
-		recorrido3 = false,
-		recorrido4 = false;
+
+
+//Variables animación pelota
+float	movPelota_x = 0.0f,
+		movPelota_z = 0.0f;
+
+bool	animacion_pelota = false,
+		recorrido1_pelota = true,
+		recorrido2_pelota = false,
+		recorrido3_pelota = false,
+		recorrido4_pelota = false;
+
+
 
 
 //Keyframes (Manipulación y dibujo)
@@ -176,47 +181,47 @@ void animate(void)
 		}
 	}
 
-	//Vehículo
-	if (animacion)
+	//Pelota
+	if (animacion_pelota)
 	{
-		if (recorrido1)
+		if (recorrido1_pelota)
 		{
-			movAuto_z += 3.7f;
-			orienta = 0.0f;
-			if (movAuto_z > 150.0f)
+			movPelota_x += 0.2f;
+			movPelota_z += 0.25f;
+			if (movPelota_x >= 40 && movPelota_z >= 50)
 			{
-				recorrido1 = false;
-				recorrido2 = true;
+				recorrido1_pelota = false;
+				recorrido2_pelota = true;
 			}
 		}
-		if (recorrido2)
+		if (recorrido2_pelota)
 		{
-			movAuto_x -= 3.0f;
-			orienta = -90.0f;
-			if (movAuto_x < -200.0f)
+			movPelota_x += 0.25f;
+			movPelota_z -= 0.25f;
+			if (movPelota_x >= 110 && movPelota_z <= -20)
 			{
-				recorrido2 = false;
-				recorrido3 = true;
+				recorrido2_pelota = false;
+				recorrido3_pelota = true;
 			}
 		}
-		if (recorrido3)
+		if (recorrido3_pelota)
 		{
-			movAuto_z -= 3.0f;
-			orienta = 180.0f;
-			if (movAuto_z < -150.0f)
+			movPelota_x -= 0.34375f;
+			movPelota_z -= 0.25f;
+			if (movPelota_x <= 55 && movPelota_z <= -60)
 			{
-				recorrido3 = false;
-				recorrido4 = true;
+				recorrido3_pelota = false;
+				recorrido4_pelota = true;
 			}
 		}
-		if (recorrido4)
+		if (recorrido4_pelota)
 		{
-			movAuto_x += 2.7f;
-			orienta = 90.0f;
-			if (movAuto_x > 0.0f)
+			movPelota_x -= 0.22915;
+			movPelota_z += 0.25f;
+			if (movPelota_x <= 0 && movPelota_z >= 0)
 			{
-				recorrido4 = false;
-				recorrido1 = true;
+				recorrido4_pelota = false;
+				recorrido1_pelota = true;
 			}
 		}
 	}
@@ -300,31 +305,36 @@ int main()
 	
 	//--------------------------------Estructura-------------------------------------------//
 	Model suelo("resources/objects/Suelo/Suelo.obj");
-	Model muros("resources/objects/Muros/Muros.obj");
+	/*Model muros("resources/objects/Muros/Muros.obj");
 	Model techo("resources/objects/Techo/Techo.obj");
 	Model ventanas("resources/objects/Ventanas/Ventanas.obj");
 	Model puertas("resources/objects/Puertas/Puertas.obj");
 	Model puertaPrincipal("resources/objects/Puertas/Puerta_Principal.obj");
-	Model marcoPuertaPrincipal("resources/objects/Puertas/Marco_Puerta_Principal.obj");
+	Model marcoPuertaPrincipal("resources/objects/Puertas/Marco_Puerta_Principal.obj");*/
 	
+	//--------------------------------Alberca----------------------------------------------//
+	Model alberca("resources/objects/Alberca/Alberca.obj");
+	Model escaleras("resources/objects/Alberca/Escaleras.obj");
+	Model agua("resources/objects/Alberca/agua.obj");
+
 	//--------------------------------Cocina/Comedor---------------------------------------//
-	Model cocina("resources/objects/Cocina/Cocina.obj");
-	Model comedor("resources/objects/Comedor/Comedor.obj");
+	/*Model cocina("resources/objects/Cocina/Cocina.obj");
+	Model comedor("resources/objects/Comedor/Comedor.obj");*/
 	
 	//--------------------------------Lavanderia-------------------------------------------//
-	Model lavanderia("resources/objects/Lavanderia/Lavanderia.obj");
+	/*Model lavanderia("resources/objects/Lavanderia/Lavanderia.obj");*/
 
 	//--------------------------------Sala------------------------------------------------//
 	//Model planta("resources/objects/Planta/Planta.obj");
 
 	//---------------------------------Baños----------------------------------------------//
-	Model wc("resources/objects/WC/WC.obj");
+	//Model wc("resources/objects/WC/WC.obj");
 	/*Model shower("resources/objects/Showers/Showers.obj");*/
 
 	//--------------------------------Recamaras------------------------------------------//
-	Model sillon("resources/objects/Sillones/Sillones.obj");
+	//Model sillon("resources/objects/Sillones/Sillones.obj");
 	Model mesaNoche("resources/objects/MesasNoche/MesasNoche.obj");
-	Model closet("resources/objects/Closets/Closets.obj");
+	//Model closet("resources/objects/Closets/Closets.obj");
 
 	//-------------------------------Animaciones-----------------------------------------//
 	Model virus("resources/objects/Covid/Covid.obj");
@@ -438,12 +448,6 @@ int main()
 		staticShader.setMat4("model", model);
 		suelo.Draw(staticShader);
 
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
-		staticShader.setMat4("model", model);
-		muros.Draw(staticShader);
-
 		/*model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
@@ -454,31 +458,48 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		ventanas.Draw(staticShader);
+		//ventanas.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		puertas.Draw(staticShader);
+		//puertas.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		puertaPrincipal.Draw(staticShader);
+		//puertaPrincipal.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		marcoPuertaPrincipal.Draw(staticShader);
+		//marcoPuertaPrincipal.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		muros.Draw(staticShader);
+		//muros.Draw(staticShader);
+
+
+		// -------------------------------------------------------------------------------------------------------------------------
+		// Alberca
+		// -------------------------------------------------------------------------------------------------------------------------
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		alberca.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		escaleras.Draw(staticShader);
+
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Cocina/Comedor
@@ -487,13 +508,13 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		comedor.Draw(staticShader); 
+		//comedor.Draw(staticShader); 
 		
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		cocina.Draw(staticShader);
+		//cocina.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Lavanderia
@@ -502,7 +523,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		lavanderia.Draw(staticShader);
+		//lavanderia.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Sala
@@ -516,11 +537,11 @@ int main()
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Baños
 		// -------------------------------------------------------------------------------------------------------------------------
-		model = glm::mat4(1.0f);
+		/*model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		wc.Draw(staticShader);
+		wc.Draw(staticShader);*/
 
 		/*model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -535,7 +556,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		sillon.Draw(staticShader);
+		//sillon.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -547,7 +568,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		closet.Draw(staticShader);
+		//closet.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Animaciones
@@ -556,16 +577,16 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		virus.Draw(staticShader);
+		//virus.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		colibri.Draw(staticShader);
+		//colibri.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f + movPelota_x , 0.0f, 0.0f + movPelota_z));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
 		pelota.Draw(staticShader);
@@ -574,13 +595,13 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		escoba.Draw(staticShader);
+		//escoba.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		plancha.Draw(staticShader);
+		//plancha.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Caja Transparente //tiene que ser lo ultimo que se dibuja para que el algoritmo de transparencia trabaje bien
@@ -591,6 +612,13 @@ int main()
 		model = glm::scale(model, glm::vec3(5.0f));
 		staticShader.setMat4("model", model);
 		cubo.Draw(staticShader);*/
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		agua.Draw(staticShader);
+
 		glEnable(GL_BLEND);
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Termina Escenario
@@ -655,8 +683,11 @@ void my_input(GLFWwindow *window, int key, int scancode, int action, int mode)
 		giroMonito++;
 
 	//Car animation
-	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-		animacion ^= true;
+	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+		animacion_pelota = !animacion_pelota;
+		std::cout << animacion_pelota << std::endl;
+	}
+		
 
 	//To play KeyFrame animation 
 	if (key == GLFW_KEY_P && action == GLFW_PRESS)
