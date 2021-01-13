@@ -297,7 +297,6 @@ int main()
 	skyboxShader.setInt("skybox", 0);
 
 	// load models
-	// -----------
 	
 	//--------------------------------Estructura-------------------------------------------//
 	Model suelo("resources/objects/Suelo/Suelo.obj");
@@ -312,7 +311,27 @@ int main()
 	Model cocina("resources/objects/Cocina/Cocina.obj");
 	Model comedor("resources/objects/Comedor/Comedor.obj");
 	
-	//--------------------------------Sala----------------------------------------------//
+	//--------------------------------Lavanderia-------------------------------------------//
+	Model lavanderia("resources/objects/Lavanderia/Lavanderia.obj");
+
+	//--------------------------------Sala------------------------------------------------//
+	//Model planta("resources/objects/Planta/Planta.obj");
+
+	//---------------------------------Baños----------------------------------------------//
+	Model wc("resources/objects/WC/WC.obj");
+	/*Model shower("resources/objects/Showers/Showers.obj");*/
+
+	//--------------------------------Recamaras------------------------------------------//
+	Model sillon("resources/objects/Sillones/Sillones.obj");
+	Model mesaNoche("resources/objects/MesasNoche/MesasNoche.obj");
+	Model closet("resources/objects/Closets/Closets.obj");
+
+	//-------------------------------Animaciones-----------------------------------------//
+	Model virus("resources/objects/Covid/Covid.obj");
+	Model colibri("resources/objects/Colibri/Colibri.obj");
+	Model escoba("resources/objects/Escoba/Escoba.obj");
+	Model pelota("resources/objects/Pelota/Pelota.obj");
+	Model plancha("resources/objects/Plancha/Plancha.obj");
 
 
 	//Inicialización de KeyFrames
@@ -476,8 +495,93 @@ int main()
 		staticShader.setMat4("model", model);
 		cocina.Draw(staticShader);
 
-		
-		
+		// -------------------------------------------------------------------------------------------------------------------------
+		// Lavanderia
+		// -------------------------------------------------------------------------------------------------------------------------
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		lavanderia.Draw(staticShader);
+
+		// -------------------------------------------------------------------------------------------------------------------------
+		// Sala
+		// -------------------------------------------------------------------------------------------------------------------------
+		/*model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		planta.Draw(staticShader);*/
+
+		// -------------------------------------------------------------------------------------------------------------------------
+		// Baños
+		// -------------------------------------------------------------------------------------------------------------------------
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		wc.Draw(staticShader);
+
+		/*model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		shower.Draw(staticShader);*/
+
+		// -------------------------------------------------------------------------------------------------------------------------
+		// Recamaras
+		// -------------------------------------------------------------------------------------------------------------------------
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		sillon.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		mesaNoche.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		closet.Draw(staticShader);
+
+		// -------------------------------------------------------------------------------------------------------------------------
+		// Animaciones
+		// -------------------------------------------------------------------------------------------------------------------------
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		virus.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		colibri.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		pelota.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		escoba.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		plancha.Draw(staticShader);
+
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Caja Transparente //tiene que ser lo ultimo que se dibuja para que el algoritmo de transparencia trabaje bien
 		// -------------------------------------------------------------------------------------------------------------------------
