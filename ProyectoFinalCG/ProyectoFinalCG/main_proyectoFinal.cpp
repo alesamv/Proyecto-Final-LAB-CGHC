@@ -349,7 +349,7 @@ int main()
 
 	// load models
 	
-	//--------------------------------Estructura-------------------------------------------//
+	//--------------------------------Escenario-------------------------------------------//
 	Model suelo("resources/objects/Suelo/Suelo.obj");
 	Model muros("resources/objects/Muros/Muros.obj");
 	Model techo("resources/objects/Techo/Techo.obj");
@@ -357,6 +357,10 @@ int main()
 	Model puertas("resources/objects/Puertas/Puertas.obj");
 	Model puertaPrincipal("resources/objects/Puertas/Puerta_Principal.obj");
 	Model marcoPuertaPrincipal("resources/objects/Puertas/Marco_Puerta_Principal.obj");*/
+	
+	//--------------------------------Carro-------------------------------------------//
+	Model carro("resources/objects/lambo/carroceria.obj");
+	Model llanta("resources/objects/lambo/Wheel.obj");
 	
 	//--------------------------------Alberca----------------------------------------------//
 	Model alberca("resources/objects/Alberca/Alberca.obj");
@@ -371,16 +375,26 @@ int main()
 	/*Model lavanderia("resources/objects/Lavanderia/Lavanderia.obj");*/
 
 	//--------------------------------Sala------------------------------------------------//
-	//Model planta("resources/objects/Planta/Planta.obj");
+	Model planta("resources/objects/Planta/Planta.obj");
+	Model mueblesSala("resources/objects/MueblesSala/MueblesSala.obj");
+	Model sillonesSala("resources/objects/SillonesSala/SillonesSala.obj");
+	Model tele("resources/objects/Tele/Tele.obj");
 
 	//---------------------------------Baños----------------------------------------------//
-	//Model wc("resources/objects/WC/WC.obj");
-	/*Model shower("resources/objects/Showers/Showers.obj");*/
+	Model vater("resources/objects/Vater/vater.obj");
+	Model shower("resources/objects/Ducha/ducha.obj");
+	Model lavabo1("resources/objects/Lavabo1/Lavabo1.obj");
+	Model lavabo11("resources/objects/Lavabo1.1/Lavabo1.1.obj");
+	Model lavabo2("resources/objects/Lavabo2/Lavabo2.obj");
+	Model lavabo3("resources/objects/Lavabo3/Lavabo3.obj");
 
 	//--------------------------------Recamaras------------------------------------------//
 	//Model sillon("resources/objects/Sillones/Sillones.obj");
 	Model mesaNoche("resources/objects/MesasNoche/MesasNoche.obj");
 	//Model closet("resources/objects/Closets/Closets.obj");
+	Model cama1("resources/objects/CamaPrincipal/CamaPrincipal.obj");
+	Model cama2("resources/objects/Cama2/Cama2.obj");
+	Model cama3("resources/objects/Cama3/Cama3.obj");
 
 	//-------------------------------Animaciones-----------------------------------------//
 	//Model virus("resources/objects/Covid/Covid.obj");
@@ -452,6 +466,7 @@ int main()
 
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 tmp = glm::mat4(1.0f);
+		
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 10000.0f);
 		glm::mat4 view = camera.GetViewMatrix();
@@ -498,7 +513,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		techo.Draw(staticShader);
+		//techo.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -530,6 +545,36 @@ int main()
 		staticShader.setMat4("model", model);
 		muros.Draw(staticShader);
 
+		// -------------------------------------------------------------------------------------------------------------------------
+		// Carro
+		// -------------------------------------------------------------------------------------------------------------------------
+		model = glm::mat4(1.0f);
+		tmp= model = glm::translate(model, glm::vec3(-90.0f, 0.0f, 200.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		staticShader.setMat4("model", model);
+		carro.Draw(staticShader);
+
+		model = glm::translate(tmp, glm::vec3(17.0f, 6.5f, 25.4f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		staticShader.setMat4("model", model);
+		llanta.Draw(staticShader);	//Izq delantera
+
+		model = glm::translate(tmp, glm::vec3(-17.0f, 6.5f, 25.4f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		staticShader.setMat4("model", model);
+		llanta.Draw(staticShader);	//Der delantera
+
+		model = glm::translate(tmp, glm::vec3(-17.0f, 6.5f, -27.4f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		staticShader.setMat4("model", model);
+		llanta.Draw(staticShader);	//Der trasera
+
+		model = glm::translate(tmp, glm::vec3(17.0f, 6.5f, -27.4f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		staticShader.setMat4("model", model);
+		llanta.Draw(staticShader);	//Izq trase
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Alberca
@@ -574,26 +619,68 @@ int main()
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Sala
 		// -------------------------------------------------------------------------------------------------------------------------
-		/*model = glm::mat4(1.0f);
+		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		planta.Draw(staticShader);*/
+		//planta.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		//mueblesSala.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		//sillonesSala.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		//tele.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Baños
 		// -------------------------------------------------------------------------------------------------------------------------
-		/*model = glm::mat4(1.0f);
+		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		wc.Draw(staticShader);*/
+		//vater.Draw(staticShader);
 
-		/*model = glm::mat4(1.0f);
+		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		shower.Draw(staticShader);*/
+		//shower.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		//lavabo1.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		//lavabo11.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		//lavabo2.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		//lavabo3.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Recamaras
@@ -608,13 +695,31 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		mesaNoche.Draw(staticShader);
+		//mesaNoche.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
 		//closet.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		//cama1.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		cama2.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		cama3.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Animaciones
@@ -630,13 +735,13 @@ int main()
 		model = glm::rotate(model, glm::radians(rotRodIzq), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		colibri.Draw(staticShader);
+		//colibri.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f + movPelota_x , 0.0f, 0.0f + movPelota_z));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		pelota.Draw(staticShader);
+		//pelota.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -48 -posZ + movEscoba_z ));
@@ -644,8 +749,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 48 -posZ + movEscoba_z));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));		
 		staticShader.setMat4("model", model);
-		escoba.Draw(staticShader);
-		std::cout << movEscoba_z << std::endl;
+		//escoba.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -654,15 +758,11 @@ int main()
 		//plancha.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
-		// Caja Transparente //tiene que ser lo ultimo que se dibuja para que el algoritmo de transparencia trabaje bien
+		// Caja Transparente para Alberca
 		// -------------------------------------------------------------------------------------------------------------------------
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		/*model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -70.0f));
-		model = glm::scale(model, glm::vec3(5.0f));
-		staticShader.setMat4("model", model);
-		cubo.Draw(staticShader);*/
-
+		
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
