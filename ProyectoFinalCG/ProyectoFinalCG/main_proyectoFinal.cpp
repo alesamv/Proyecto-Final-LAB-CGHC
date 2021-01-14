@@ -75,7 +75,18 @@ bool	animacion_pelota = false,
 		recorrido3_pelota = false,
 		recorrido4_pelota = false;
 
+//Variables animación esoba
+float	movEscoba_x = 0.0f,
+		movEscoba_z = 0.0f,
+		giroEscoba = 0.0f;
 
+bool	animacion_escoba = false,
+		recorrido1_escoba = true,
+		recorrido2_escoba = false,
+		recorrido3_escoba = false,
+		recorrido4_escoba = false,
+		izquierda_escoba = true,
+		derecha_escoba = false;
 
 
 //Keyframes (Manipulación y dibujo)
@@ -225,6 +236,41 @@ void animate(void)
 			}
 		}
 	}
+
+	//Escoba
+	if (animacion_escoba)
+	{
+		if (izquierda_escoba) {
+			giroEscoba -= 0.5;
+			if (giroEscoba < -15) {
+				izquierda_escoba = false;
+				derecha_escoba = true;
+			}
+		}
+		if (derecha_escoba) {
+			giroEscoba += 0.5;
+			if (giroEscoba > 15) {
+				izquierda_escoba = true;
+				derecha_escoba = false;
+			}
+		}
+		if(recorrido1_escoba){
+			movEscoba_z -= 0.1;
+			if (movEscoba_z < -8) {
+				recorrido1_escoba = false;
+				recorrido2_escoba = true;
+			}
+
+		}
+		if (recorrido2_escoba) {
+			movEscoba_z += 0.1;
+			if (movEscoba_z > 8) {
+				recorrido2_escoba = false;
+				recorrido1_escoba = true;
+			}
+
+		}
+	}
 }
 
 void sonido() {
@@ -305,9 +351,9 @@ int main()
 	
 	//--------------------------------Estructura-------------------------------------------//
 	Model suelo("resources/objects/Suelo/Suelo.obj");
-	/*Model muros("resources/objects/Muros/Muros.obj");
+	Model muros("resources/objects/Muros/Muros.obj");
 	Model techo("resources/objects/Techo/Techo.obj");
-	Model ventanas("resources/objects/Ventanas/Ventanas.obj");
+	/*Model ventanas("resources/objects/Ventanas/Ventanas.obj");
 	Model puertas("resources/objects/Puertas/Puertas.obj");
 	Model puertaPrincipal("resources/objects/Puertas/Puerta_Principal.obj");
 	Model marcoPuertaPrincipal("resources/objects/Puertas/Marco_Puerta_Principal.obj");*/
@@ -337,7 +383,7 @@ int main()
 	//Model closet("resources/objects/Closets/Closets.obj");
 
 	//-------------------------------Animaciones-----------------------------------------//
-	Model virus("resources/objects/Covid/Covid.obj");
+	//Model virus("resources/objects/Covid/Covid.obj");
 	Model colibri("resources/objects/Colibri/Colibri.obj");
 	Model escoba("resources/objects/Escoba/Escoba.obj");
 	Model pelota("resources/objects/Pelota/Pelota.obj");
@@ -448,11 +494,11 @@ int main()
 		staticShader.setMat4("model", model);
 		suelo.Draw(staticShader);
 
-		/*model = glm::mat4(1.0f);
+		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		techo.Draw(staticShader);*/
+		techo.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -482,7 +528,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//muros.Draw(staticShader);
+		muros.Draw(staticShader);
 
 
 		// -------------------------------------------------------------------------------------------------------------------------
@@ -581,9 +627,10 @@ int main()
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotRodIzq), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//colibri.Draw(staticShader);
+		colibri.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f + movPelota_x , 0.0f, 0.0f + movPelota_z));
@@ -592,10 +639,13 @@ int main()
 		pelota.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -48 -posZ + movEscoba_z ));
+		model = glm::rotate(model, glm::radians(giroEscoba), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 48 -posZ + movEscoba_z));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));		
 		staticShader.setMat4("model", model);
-		//escoba.Draw(staticShader);
+		escoba.Draw(staticShader);
+		std::cout << movEscoba_z << std::endl;
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -682,10 +732,14 @@ void my_input(GLFWwindow *window, int key, int scancode, int action, int mode)
 	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
 		giroMonito++;
 
-	//Car animation
-	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+	//Animacion pelota
+	if (key == GLFW_KEY_KP_7 && action == GLFW_PRESS) {
 		animacion_pelota = !animacion_pelota;
-		std::cout << animacion_pelota << std::endl;
+	}
+
+	//Animacion escoba
+	if (key == GLFW_KEY_KP_8 && action == GLFW_PRESS) {
+		animacion_escoba = !animacion_escoba;
 	}
 		
 
