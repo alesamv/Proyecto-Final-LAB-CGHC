@@ -10,7 +10,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Wood1_Roughness.png
+map_Kd whiteTexture.jpg
 
 newmtl bedwood
 Ns 225.000000
@@ -21,6 +21,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
+map_Kd blackTexture.jpg
 
 newmtl fabric1
 Ns 225.000000
@@ -31,7 +32,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd Wood1_Metallic.png
+map_Kd blackTexture.jpg
 
 newmtl fabric2
 Ns 225.000000

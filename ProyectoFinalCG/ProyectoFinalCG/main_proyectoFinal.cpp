@@ -349,7 +349,7 @@ int main()
 
 	// load models
 	
-	//--------------------------------Estructura-------------------------------------------//
+	//--------------------------------Escenario-------------------------------------------//
 	Model suelo("resources/objects/Suelo/Suelo.obj");
 	Model muros("resources/objects/Muros/Muros.obj");
 	Model techo("resources/objects/Techo/Techo.obj");
@@ -357,6 +357,10 @@ int main()
 	Model puertas("resources/objects/Puertas/Puertas.obj");
 	Model puertaPrincipal("resources/objects/Puertas/Puerta_Principal.obj");
 	Model marcoPuertaPrincipal("resources/objects/Puertas/Marco_Puerta_Principal.obj");*/
+	
+	//--------------------------------Carro-------------------------------------------//
+	Model carro("resources/objects/lambo/carroceria.obj");
+	Model llanta("resources/objects/lambo/Wheel.obj");
 	
 	//--------------------------------Alberca----------------------------------------------//
 	Model alberca("resources/objects/Alberca/Alberca.obj");
@@ -462,6 +466,7 @@ int main()
 
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 tmp = glm::mat4(1.0f);
+		
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 10000.0f);
 		glm::mat4 view = camera.GetViewMatrix();
@@ -540,6 +545,36 @@ int main()
 		staticShader.setMat4("model", model);
 		muros.Draw(staticShader);
 
+		// -------------------------------------------------------------------------------------------------------------------------
+		// Carro
+		// -------------------------------------------------------------------------------------------------------------------------
+		model = glm::mat4(1.0f);
+		tmp= model = glm::translate(model, glm::vec3(-90.0f, 0.0f, 200.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		staticShader.setMat4("model", model);
+		carro.Draw(staticShader);
+
+		model = glm::translate(tmp, glm::vec3(17.0f, 6.5f, 25.4f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		staticShader.setMat4("model", model);
+		llanta.Draw(staticShader);	//Izq delantera
+
+		model = glm::translate(tmp, glm::vec3(-17.0f, 6.5f, 25.4f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		staticShader.setMat4("model", model);
+		llanta.Draw(staticShader);	//Der delantera
+
+		model = glm::translate(tmp, glm::vec3(-17.0f, 6.5f, -27.4f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		staticShader.setMat4("model", model);
+		llanta.Draw(staticShader);	//Der trasera
+
+		model = glm::translate(tmp, glm::vec3(17.0f, 6.5f, -27.4f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		staticShader.setMat4("model", model);
+		llanta.Draw(staticShader);	//Izq trase
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Alberca
@@ -588,7 +623,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		planta.Draw(staticShader);
+		//planta.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -723,15 +758,11 @@ int main()
 		//plancha.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
-		// Caja Transparente
+		// Caja Transparente para Alberca
 		// -------------------------------------------------------------------------------------------------------------------------
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		/*model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -70.0f));
-		model = glm::scale(model, glm::vec3(5.0f));
-		staticShader.setMat4("model", model);
-		cubo.Draw(staticShader);*/
-
+		
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
