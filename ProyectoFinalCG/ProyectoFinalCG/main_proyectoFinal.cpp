@@ -45,7 +45,7 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 // camera
-Camera camera(glm::vec3(0.0f, 10.0f, 90.0f));
+Camera camera(glm::vec3(0.0f, 30.0f, 120.0f));
 float MovementSpeed = 0.1f;
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
@@ -110,7 +110,8 @@ float	movVirus_x = 0.0f,
 
 bool	animacion_virus = false;
 
-
+//Techo
+float	escalaTecho = 5.0f;
 
 //Keyframes (Manipulación y dibujo)
 float	posX = 0.0f,
@@ -718,7 +719,7 @@ int main()
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::scale(model, glm::vec3(escalaTecho, escalaTecho, escalaTecho));
 		staticShader.setMat4("model", model);
 		techo.Draw(staticShader);
 
@@ -1047,6 +1048,14 @@ void my_input(GLFWwindow *window, int key, int scancode, int action, int mode)
 	//Animacion Virus
 	if (key == GLFW_KEY_KP_4 && action == GLFW_PRESS) {
 		animacion_virus = !animacion_virus;
+	}
+
+	//Ocultar Techo
+	if (key == GLFW_KEY_T && action == GLFW_PRESS) {
+		if (escalaTecho == 5.0f)
+			escalaTecho = 0.0f;
+		else
+			escalaTecho = 5.0f;
 	}
 		
 
