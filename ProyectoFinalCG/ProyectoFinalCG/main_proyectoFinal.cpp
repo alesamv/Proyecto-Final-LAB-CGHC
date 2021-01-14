@@ -38,6 +38,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 //void my_input(GLFWwindow *window);
 void my_input(GLFWwindow* window, int key, int scancode, int action, int mods);
 void animate(void);
+void animacionKeyFrames();
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -60,10 +61,6 @@ double	deltaTime = 0.0f,
 glm::vec3 lightPosition(0.0f, 4.0f, -10.0f);
 glm::vec3 lightDirection(0.0f, -1.0f, -1.0f);
 
-// posiciones
-//float x = 0.0f;
-//float y = 0.0f;
-
 
 //Variables animación pelota
 float	movPelota_x = 0.0f,
@@ -75,7 +72,7 @@ bool	animacion_pelota = false,
 		recorrido3_pelota = false,
 		recorrido4_pelota = false;
 
-//Variables animación esoba
+//Variables animación escoba
 float	movEscoba_x = 0.0f,
 		movEscoba_z = 0.0f,
 		giroEscoba = 0.0f;
@@ -83,25 +80,51 @@ float	movEscoba_x = 0.0f,
 bool	animacion_escoba = false,
 		recorrido1_escoba = true,
 		recorrido2_escoba = false,
-		recorrido3_escoba = false,
-		recorrido4_escoba = false,
 		izquierda_escoba = true,
 		derecha_escoba = false;
+
+//Variables animación colibri
+float	velocidad_colibri = 1.0f,
+		refGiroColibri_x = 0.0f,
+		refGiroColibri_z = 0.0f,
+		giroColibri = 0.0f,
+		subeBajaColibri = 0.0f,
+		variacionSubeBaja = 0.0f,
+		movColibri_x = 0.0f;
+
+bool	animacion_colibri = false,
+		subiendo = true,
+		bajando = false,
+		recorrido1_colibri = true,
+		recorrido2_colibri = false,
+		recorrido3_colibri = false,
+		recorrido4_colibri = false,
+		recorrido5_colibri = false,
+		recorrido6_colibri = false,
+		recorrido7_colibri = false;
+
+//Variables animación virus
+float	movVirus_x = 0.0f,
+		movVirus_y = 0.0f,
+		rotarVirus = 0.0f;
+
+bool	animacion_virus = false;
+
 
 
 //Keyframes (Manipulación y dibujo)
 float	posX = 0.0f,
 		posY = 0.0f,
 		posZ = 0.0f,
-		rotRodIzq = 0.0f,
-		giroMonito = 0.0f;
+		rotX = 0.0f,
+		rotZ = 0.0f;
 float	incX = 0.0f,
 		incY = 0.0f,
 		incZ = 0.0f,
 		rotInc = 0.0f,
-		giroMonitoInc = 0.0f;
+		rotZInc = 0.0f;
 
-#define MAX_FRAMES 9
+#define MAX_FRAMES 13
 int i_max_steps = 60;
 int i_curr_steps = 0;
 typedef struct _frame
@@ -110,8 +133,8 @@ typedef struct _frame
 	float posX;		//Variable para PosicionX
 	float posY;		//Variable para PosicionY
 	float posZ;		//Variable para PosicionZ
-	float rotRodIzq;
-	float giroMonito;
+	float rotX;
+	float rotZ;
 
 }FRAME;
 
@@ -129,10 +152,88 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].posY = posY;
 	KeyFrame[FrameIndex].posZ = posZ;
 
-	KeyFrame[FrameIndex].rotRodIzq = rotRodIzq;
-	KeyFrame[FrameIndex].giroMonito = giroMonito;
+	KeyFrame[FrameIndex].rotX = rotX;
+	KeyFrame[FrameIndex].rotZ = rotZ;
 
 	FrameIndex++;
+}
+
+void animacionKeyFrames(void)
+{
+	//Frame 0
+	KeyFrame[0].posX = 0;
+	KeyFrame[0].posY = 0;
+	KeyFrame[0].posZ = 0;
+	KeyFrame[0].rotX = 0;
+	KeyFrame[0].rotZ = 0;
+	//Frame 1
+	KeyFrame[1].posX = 0;
+	KeyFrame[1].posY = 2;
+	KeyFrame[1].posZ = -3;
+	KeyFrame[1].rotX = -96;
+	KeyFrame[1].rotZ = -25;
+	//Frame 2
+	KeyFrame[2].posX = -3;
+	KeyFrame[2].posY = 2;
+	KeyFrame[2].posZ = -1;
+	KeyFrame[2].rotX = -96;
+	KeyFrame[2].rotZ = 30;
+	//Frame 3
+	KeyFrame[3].posX = 5;
+	KeyFrame[3].posY = 2;
+	KeyFrame[3].posZ = -8;
+	KeyFrame[3].rotX = -96;
+	KeyFrame[3].rotZ = 30;
+	//Frame 4
+	KeyFrame[4].posX = -3;
+	KeyFrame[4].posY = 2;
+	KeyFrame[4].posZ = -6;
+	KeyFrame[4].rotX = -96;
+	KeyFrame[4].rotZ = 30;
+	//Frame 5
+	KeyFrame[5].posX = 5;
+	KeyFrame[5].posY = 2;
+	KeyFrame[5].posZ = -13;
+	KeyFrame[5].rotX = -96;
+	KeyFrame[5].rotZ = 30;
+	//Frame 6
+	KeyFrame[6].posX = -6;
+	KeyFrame[6].posY = 2;
+	KeyFrame[6].posZ = -1;
+	KeyFrame[6].rotX = -96;
+	KeyFrame[6].rotZ = -29;
+	//Frame 7
+	KeyFrame[7].posX = 1;
+	KeyFrame[7].posY = 2;
+	KeyFrame[7].posZ = -8;
+	KeyFrame[7].rotX = -96;
+	KeyFrame[7].rotZ = -21;
+	//Frame 8
+	KeyFrame[8].posX = -6;
+	KeyFrame[8].posY = 2;
+	KeyFrame[8].posZ = -4;
+	KeyFrame[8].rotX = -96;
+	KeyFrame[8].rotZ = -32;
+	//Frame 9
+	KeyFrame[9].posX = -1;
+	KeyFrame[9].posY = 2;
+	KeyFrame[9].posZ = -13;
+	KeyFrame[9].rotX = -96;
+	KeyFrame[9].rotZ = -20;
+	//Frame 10
+	KeyFrame[10].posX = -6;
+	KeyFrame[10].posY = 2;
+	KeyFrame[10].posZ = -9;
+	KeyFrame[10].rotX = -96;
+	KeyFrame[10].rotZ = -32;
+	//Frame 11
+	KeyFrame[11].posX = -3;
+	KeyFrame[11].posY = 2;
+	KeyFrame[11].posZ = -1;
+	KeyFrame[11].rotX = -96;
+	KeyFrame[11].rotZ = 4;
+
+	FrameIndex = 13;
 }
 
 void resetElements(void)
@@ -141,8 +242,8 @@ void resetElements(void)
 	posY = KeyFrame[0].posY;
 	posZ = KeyFrame[0].posZ;
 
-	rotRodIzq = KeyFrame[0].rotRodIzq;
-	giroMonito = KeyFrame[0].giroMonito;
+	rotX = KeyFrame[0].rotX;
+	rotZ = KeyFrame[0].rotZ;
 }
 
 void interpolation(void)
@@ -151,8 +252,8 @@ void interpolation(void)
 	incY = (KeyFrame[playIndex + 1].posY - KeyFrame[playIndex].posY) / i_max_steps;
 	incZ = (KeyFrame[playIndex + 1].posZ - KeyFrame[playIndex].posZ) / i_max_steps;
 
-	rotInc = (KeyFrame[playIndex + 1].rotRodIzq - KeyFrame[playIndex].rotRodIzq) / i_max_steps;
-	giroMonitoInc = (KeyFrame[playIndex + 1].giroMonito - KeyFrame[playIndex].giroMonito) / i_max_steps;
+	rotInc = (KeyFrame[playIndex + 1].rotX - KeyFrame[playIndex].rotX) / i_max_steps;
+	rotZInc = (KeyFrame[playIndex + 1].rotZ - KeyFrame[playIndex].rotZ) / i_max_steps;
 
 }
 
@@ -185,8 +286,8 @@ void animate(void)
 			posY += incY;
 			posZ += incZ;
 
-			rotRodIzq += rotInc;
-			giroMonito += giroMonitoInc;
+			rotX += rotInc;
+			rotZ += rotZInc;
 
 			i_curr_steps++;
 		}
@@ -271,6 +372,135 @@ void animate(void)
 
 		}
 	}
+
+	//Colibri
+	if (animacion_colibri)
+	{
+		//Sube y baja
+		if (movColibri_x < 800) {
+			variacionSubeBaja = (movColibri_x / 90);
+		}
+		else {
+			variacionSubeBaja = (movColibri_x / 110);
+		}
+
+		if (subiendo) {
+			subeBajaColibri += 0.01;
+			if (subeBajaColibri >= 10 - variacionSubeBaja) {
+				subiendo = false;
+				bajando = true;
+			}
+		}
+		if (bajando) {
+			subeBajaColibri -= 0.01;
+			if (subeBajaColibri <= -10 + variacionSubeBaja) {
+				subiendo = true;
+				bajando = false;
+			}
+		}
+
+		//Recorrido
+		if (recorrido1_colibri)
+		{
+			movColibri_x += velocidad_colibri;
+			if (movColibri_x >= 135)
+			{
+				recorrido1_colibri = false;
+				recorrido2_colibri = true;
+				giroColibri = 90;
+				refGiroColibri_z = 340;
+				refGiroColibri_x = -30;
+			}
+		}
+		if (recorrido2_colibri)
+		{
+			movColibri_x += velocidad_colibri;
+			if (movColibri_x >= 135 + 415)
+			{
+				recorrido2_colibri = false;
+				recorrido3_colibri = true;
+				giroColibri = 180;
+				refGiroColibri_z = -45;
+				refGiroColibri_x = 715;
+			}
+		}
+		if (recorrido3_colibri)
+		{
+			movColibri_x += velocidad_colibri;
+			if (movColibri_x >= 550 + 170)
+			{
+				recorrido3_colibri = false;
+				recorrido4_colibri = true;
+				giroColibri = 270;
+				refGiroColibri_z = -965;
+				refGiroColibri_x = 160;
+			}
+		}
+		if (recorrido4_colibri)
+		{
+			movColibri_x += velocidad_colibri;
+			if (movColibri_x >= 885)
+			{
+				recorrido4_colibri = false;
+				recorrido5_colibri = true;
+				giroColibri = 0;
+				refGiroColibri_z = -245;
+				refGiroColibri_x = -925;
+			}
+		}
+		if (recorrido5_colibri)
+		{
+			movColibri_x += velocidad_colibri;
+			if (movColibri_x >= 1055)
+			{
+				recorrido5_colibri = false;
+				recorrido6_colibri = true;
+				giroColibri = 270;
+				refGiroColibri_z = -1130;
+				refGiroColibri_x = 335;
+			}
+		}
+		if (recorrido6_colibri)
+		{
+			movColibri_x += velocidad_colibri;
+			if (movColibri_x >= 1295)
+			{
+				recorrido6_colibri = false;
+				recorrido7_colibri = true;
+				giroColibri = 180;
+				refGiroColibri_z = 365;
+				refGiroColibri_x = 1465;
+			}
+		}
+		if (recorrido7_colibri)
+		{
+			movColibri_x += velocidad_colibri;
+			if (movColibri_x >= 1425)
+			{
+				recorrido7_colibri = false;
+				recorrido1_colibri = true;
+				giroColibri = 0;
+				refGiroColibri_z = 0;
+				refGiroColibri_x = 0;
+				movColibri_x = 0;
+			}
+		}
+	}
+
+	//Virus
+	if (animacion_virus)
+	{
+		movVirus_x += 0.125f;
+		movVirus_y += 0.25f;
+		rotarVirus -= 0.5f;
+		if (movVirus_x >= 10 && movVirus_y >= 80)
+		{
+
+			movVirus_x = 0.0;
+			movVirus_y = 0.0f;
+			rotarVirus = 0.0f;
+		}
+	}
 }
 
 void sonido() {
@@ -283,11 +513,7 @@ void sonido();
 int main()
 {
 	// glfw: initialize and configure
-	// ------------------------------
 	glfwInit();
-	/*glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);*/
 
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -325,7 +551,6 @@ int main()
 
 	// build and compile shaders
 	// -------------------------
-	//Shader staticShader("Shaders/lightVertex.vs", "Shaders/lightFragment.fs");
 	Shader staticShader("Shaders/shader_Lights.vs", "Shaders/shader_Lights.fs");
 	Shader skyboxShader("Shaders/skybox.vs", "Shaders/skybox.fs");
 	Shader animShader("Shaders/anim.vs", "Shaders/anim.fs");
@@ -353,10 +578,10 @@ int main()
 	Model suelo("resources/objects/Suelo/Suelo.obj");
 	Model muros("resources/objects/Muros/Muros.obj");
 	Model techo("resources/objects/Techo/Techo.obj");
-	/*Model ventanas("resources/objects/Ventanas/Ventanas.obj");
+	Model ventanas("resources/objects/Ventanas/Ventanas.obj");
 	Model puertas("resources/objects/Puertas/Puertas.obj");
 	Model puertaPrincipal("resources/objects/Puertas/Puerta_Principal.obj");
-	Model marcoPuertaPrincipal("resources/objects/Puertas/Marco_Puerta_Principal.obj");*/
+	Model marcoPuertaPrincipal("resources/objects/Puertas/Marco_Puerta_Principal.obj");
 	
 	//--------------------------------Carro-------------------------------------------//
 	Model carro("resources/objects/lambo/carroceria.obj");
@@ -368,11 +593,11 @@ int main()
 	Model agua("resources/objects/Alberca/agua.obj");
 
 	//--------------------------------Cocina/Comedor---------------------------------------//
-	/*Model cocina("resources/objects/Cocina/Cocina.obj");
-	Model comedor("resources/objects/Comedor/Comedor.obj");*/
+	Model cocina("resources/objects/Cocina/Cocina.obj");
+	Model comedor("resources/objects/Comedor/Comedor.obj");
 	
 	//--------------------------------Lavanderia-------------------------------------------//
-	/*Model lavanderia("resources/objects/Lavanderia/Lavanderia.obj");*/
+	Model lavanderia("resources/objects/Lavanderia/Lavanderia.obj");
 
 	//--------------------------------Sala------------------------------------------------//
 	Model planta("resources/objects/Planta/Planta.obj");
@@ -389,15 +614,15 @@ int main()
 	Model lavabo3("resources/objects/Lavabo3/Lavabo3.obj");
 
 	//--------------------------------Recamaras------------------------------------------//
-	//Model sillon("resources/objects/Sillones/Sillones.obj");
+	Model sillon("resources/objects/Sillones/Sillones.obj");
 	Model mesaNoche("resources/objects/MesasNoche/MesasNoche.obj");
-	//Model closet("resources/objects/Closets/Closets.obj");
+	Model closet("resources/objects/Closets/Closets.obj");
 	Model cama1("resources/objects/CamaPrincipal/CamaPrincipal.obj");
 	Model cama2("resources/objects/Cama2/Cama2.obj");
 	Model cama3("resources/objects/Cama3/Cama3.obj");
 
 	//-------------------------------Animaciones-----------------------------------------//
-	//Model virus("resources/objects/Covid/Covid.obj");
+	Model virus("resources/objects/Covid/Covid.obj");
 	Model colibri("resources/objects/Colibri/Colibri.obj");
 	Model escoba("resources/objects/Escoba/Escoba.obj");
 	Model pelota("resources/objects/Pelota/Pelota.obj");
@@ -410,8 +635,8 @@ int main()
 		KeyFrame[i].posX = 0;
 		KeyFrame[i].posY = 0;
 		KeyFrame[i].posZ = 0;
-		KeyFrame[i].rotRodIzq = 0;
-		KeyFrame[i].giroMonito = 0;
+		KeyFrame[i].rotX = 0;
+		KeyFrame[i].rotZ = 0;
 	}
 
 	// draw in wireframe
@@ -477,24 +702,6 @@ int main()
 		glm::vec3 lightColor = glm::vec3(1.0f);
 		glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
 		glm::vec3 ambientColor = diffuseColor * glm::vec3(0.75f);
-		
-
-		// -------------------------------------------------------------------------------------------------------------------------
-		// Personaje Animacion
-		// -------------------------------------------------------------------------------------------------------------------------
-		//Remember to activate the shader with the animation
-		/*animShader.use();
-		animShader.setMat4("projection", projection);
-		animShader.setMat4("view", view);*/
-	
-		/*animShader.setVec3("material.specular", glm::vec3(0.5f));
-		animShader.setFloat("material.shininess", 32.0f);
-		animShader.setVec3("light.ambient", ambientColor);
-		animShader.setVec3("light.diffuse", diffuseColor);
-		animShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-		animShader.setVec3("light.direction", lightDirection);
-		animShader.setVec3("viewPos", camera.Position);*/
-
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Escenario
@@ -513,31 +720,31 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//techo.Draw(staticShader);
+		techo.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//ventanas.Draw(staticShader);
+		ventanas.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//puertas.Draw(staticShader);
+		puertas.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//puertaPrincipal.Draw(staticShader);
+		puertaPrincipal.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//marcoPuertaPrincipal.Draw(staticShader);
+		marcoPuertaPrincipal.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -599,13 +806,13 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//comedor.Draw(staticShader); 
+		comedor.Draw(staticShader); 
 		
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//cocina.Draw(staticShader);
+		cocina.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Lavanderia
@@ -614,7 +821,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//lavanderia.Draw(staticShader);
+		lavanderia.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Sala
@@ -623,25 +830,25 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//planta.Draw(staticShader);
+		planta.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//mueblesSala.Draw(staticShader);
+		mueblesSala.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//sillonesSala.Draw(staticShader);
+		sillonesSala.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//tele.Draw(staticShader);
+		tele.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Baños
@@ -650,37 +857,37 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//vater.Draw(staticShader);
+		vater.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//shower.Draw(staticShader);
+		shower.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//lavabo1.Draw(staticShader);
+		lavabo1.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//lavabo11.Draw(staticShader);
+		lavabo11.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//lavabo2.Draw(staticShader);
+		lavabo2.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//lavabo3.Draw(staticShader);
+		lavabo3.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Recamaras
@@ -689,25 +896,25 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//sillon.Draw(staticShader);
+		sillon.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//mesaNoche.Draw(staticShader);
+		mesaNoche.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//closet.Draw(staticShader);
+		closet.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//cama1.Draw(staticShader);
+		cama1.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -725,37 +932,43 @@ int main()
 		// Animaciones
 		// -------------------------------------------------------------------------------------------------------------------------
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::translate(model, glm::vec3(movVirus_x, movVirus_y, 80.0f));
+		model = glm::rotate(model, glm::radians(rotarVirus), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		staticShader.setMat4("model", model);
-		//virus.Draw(staticShader);
+		virus.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(rotRodIzq), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(refGiroColibri_x, 0.0f, refGiroColibri_z));
+		model = glm::rotate(model, glm::radians(giroColibri), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(subeBajaColibri), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(movColibri_x, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//colibri.Draw(staticShader);
+		colibri.Draw(staticShader);
+
 
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f + movPelota_x , 0.0f, 0.0f + movPelota_z));
+		model = glm::translate(model, glm::vec3(0.0f + movPelota_x, 0.0f, 0.0f + movPelota_z));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//pelota.Draw(staticShader);
+		pelota.Draw(staticShader);
 
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -48 -posZ + movEscoba_z ));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -48));
 		model = glm::rotate(model, glm::radians(giroEscoba), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 48 -posZ + movEscoba_z));
-		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));		
-		staticShader.setMat4("model", model);
-		//escoba.Draw(staticShader);
-
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 48 + movEscoba_z));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		staticShader.setMat4("model", model);
-		//plancha.Draw(staticShader);
+		escoba.Draw(staticShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(132 + posX, 22 + posY, 104 + posZ));
+		model = glm::rotate(model, glm::radians(0 + rotX), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(0 + rotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		staticShader.setMat4("model", model);
+		plancha.Draw(staticShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Caja Transparente para Alberca
@@ -815,37 +1028,32 @@ void my_input(GLFWwindow *window, int key, int scancode, int action, int mode)
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, (float)deltaTime);
 	//To Configure Model
-	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
-		posZ++;
-	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
-		posZ--;
-	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
-		posX--;
-	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
-		posX++;
-	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
-		rotRodIzq--;
-	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
-		rotRodIzq++;
-	if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
-		giroMonito--;
-	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
-		giroMonito++;
 
-	//Animacion pelota
+	//Animacion Pelota
 	if (key == GLFW_KEY_KP_7 && action == GLFW_PRESS) {
 		animacion_pelota = !animacion_pelota;
 	}
 
-	//Animacion escoba
+	//Animacion Escoba
 	if (key == GLFW_KEY_KP_8 && action == GLFW_PRESS) {
 		animacion_escoba = !animacion_escoba;
+	}
+
+	//Animacion Colibri
+	if (key == GLFW_KEY_KP_9 && action == GLFW_PRESS) {
+		animacion_colibri = !animacion_colibri;
+	}
+
+	//Animacion Virus
+	if (key == GLFW_KEY_KP_4 && action == GLFW_PRESS) {
+		animacion_virus = !animacion_virus;
 	}
 		
 
 	//To play KeyFrame animation 
-	if (key == GLFW_KEY_P && action == GLFW_PRESS)
+	if (key == GLFW_KEY_KP_5 && action == GLFW_PRESS)
 	{
+		animacionKeyFrames();
 		if (play == false && (FrameIndex > 1))
 		{
 			std::cout << "Play animation" << std::endl;
